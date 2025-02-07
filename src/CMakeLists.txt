@@ -8,3 +8,4 @@ target_link_libraries(APP PRIVATE CORE)
 
 add_subdirectory(exceptions)
 add_subdirectory(core)
+add_subdirectory(utils)

@@ -8,10 +8,15 @@ Je potřeba vždy includnout glad a až potom glwf
 class App
 {
 private:
-    const static int DEFAULT_HEIGHT = 400;
-    const static int DEFAULT_WIDTH = 400;
+    const static int DEFAULT_HEIGHT = 800;
+    const static int DEFAULT_WIDTH = 800;
 
     GLFWwindow* _window;
+
+
+    void processInput();
+
+    void update();
 
 public:
     App();

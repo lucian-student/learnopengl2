@@ -4,6 +4,8 @@ add_library(CORE
 )
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(CORE PUBLIC glfw glad)
+
+# dobré vysvětlení pro význam PUBLIC https://stackoverflow.com/questions/69783203/examples-of-when-public-private-interface-should-be-used-in-cmake
+target_link_libraries(CORE PUBLIC glfw glad EXCEPTION UTILS)
 
 target_include_directories(CORE PUBLIC  "${CMAKE_CURRENT_LIST_DIR}")
