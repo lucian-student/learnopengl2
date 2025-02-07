@@ -1,10 +1,10 @@
-add_executable(APP main.cpp)
+add_executable(APP 
+    main.cpp
+)
 target_compile_options(APP PRIVATE /EHsc /W4 /D_DEBUG /MDd)
+#target_compile_options(APP PRIVATE /Zi  /fsanitize=address)
 
+target_link_libraries(APP PRIVATE CORE)
 
-target_include_directories(APP PRIVATE "${CMAKE_SOURCE_DIR}")
-
-find_package(glfw3 CONFIG REQUIRED)
-
-target_link_libraries(APP PUBLIC glfw glad)
-
+add_subdirectory(exceptions)
+add_subdirectory(core)
