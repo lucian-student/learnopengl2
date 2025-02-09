@@ -1,6 +1,7 @@
 #include "app.h"
 #include <glfw_exception.h>
 #include <color_utils.h>
+#include <triangle_mesh.h>
 
 App::App()
 {
@@ -64,4 +65,6 @@ void App::update()
     RGBColor backgroundColor(175, 225, 175);
     glClearColor(backgroundColor.clampedRed(), backgroundColor.clampedGreen(), backgroundColor.clampedBlue(), backgroundColor.alpha());
     glClear(GL_COLOR_BUFFER_BIT);
+
+    
 }
