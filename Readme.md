@@ -19,3 +19,11 @@
 ## Důležité pojmy
 
 * NDC - normalized device coordinates
+
+## Důležité zdroje informací
+
+* https://learnopengl.com/Getting-started/Hello-Triangle
+* https://cent.felk.cvut.cz/courses/PGR/lectures/02_ShadersProgram.pdf
+* https://thebookofshaders.com/
+* builtin_glsl variables https://www.khronos.org/opengl/wiki/Built-in_Variable_(GLSL)
+* opengl-wiki -> skvělý zdroj informací https://www.khronos.org/opengl/wiki/Uniform_(GLSL)

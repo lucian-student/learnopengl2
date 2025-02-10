@@ -2,6 +2,7 @@
 #include <glfw_exception.h>
 #include <color_utils.h>
 #include <triangle_mesh.h>
+#include <glm/vec3.hpp>
 
 App::App()
 {
@@ -41,11 +42,14 @@ App::~App()
 
 void App::run()
 {
+    TriangleMesh triangle(Triangle(glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.5, -0.5, 0.0), glm::vec3(0.0, 0.5, 0.0)));
+
     while (!glfwWindowShouldClose(_window))
     {
         // render loop code
         processInput();
         update();
+        triangle.draw();
         // swap buffers
         glfwSwapBuffers(_window);
         // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
@@ -65,6 +69,4 @@ void App::update()
     RGBColor backgroundColor(175, 225, 175);
     glClearColor(backgroundColor.clampedRed(), backgroundColor.clampedGreen(), backgroundColor.clampedBlue(), backgroundColor.alpha());
     glClear(GL_COLOR_BUFFER_BIT);
-
-    
 }
