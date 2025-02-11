@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include "triangle.h"
 #include <color_utils.h>
+#include <vector>
 
 class TriangleMesh
 {
@@ -78,8 +79,54 @@ private:
 
 public:
     IndexedTriangleMesh();
-    IndexedTriangleMesh(const Triangle &triangle,const RGBColor& color);
+    IndexedTriangleMesh(const Triangle &triangle, const RGBColor &color);
     ~IndexedTriangleMesh();
 
+    void draw();
+};
+
+class MultiColorTriangleMesh
+{
+private:
+    constexpr static const char *VERTEX_SHADER = "#version 330\n"
+                                                 "layout (location=0) in vec3 inPosition;\n"
+                                                 "layout (location=1) in vec4 inColor;\n"
+                                                 "out vec4 vertexColor;\n"
+                                                 "\n"
+                                                 "void main()\n"
+                                                 "{\n"
+                                                 "vertexColor = inColor;\n"
+                                                 "gl_Position = vec4(inPosition,1.0);\n"
+                                                 "}\n";
+
+    constexpr static const char *FRAGMENT_SHADER = "#version 330\n"
+                                                   "in vec4 vertexColor;\n"
+                                                   "out vec4 fragmentColor;\n"
+                                                   "\n"
+                                                   "void main()\n"
+                                                   "{\n"
+                                                   "fragmentColor = vertexColor;\n"
+                                                   "}\n";
+
+    // color + triangle
+    constexpr static int SIZE_OF_BUFFER = sizeof(Triangle) + (12 * sizeof(float));
+
+    Triangle _triangle;
+    RGBColor _a;
+    RGBColor _b;
+    RGBColor _c;
+
+    GLuint _vertexArray;
+    GLuint _vertexBuffer;
+    GLuint _program;
+
+    GLuint _vertexShader;
+    GLuint _fragmentShader;
+
+    std::vector<float> buildBuffer();
+
+public:
+    MultiColorTriangleMesh(const Triangle &triangle, const RGBColor &a, const RGBColor &b, const RGBColor &c);
+    ~MultiColorTriangleMesh();
     void draw();
 };

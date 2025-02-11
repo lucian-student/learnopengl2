@@ -3,6 +3,7 @@
 #include <color_utils.h>
 #include <triangle_mesh.h>
 #include <glm/vec3.hpp>
+#include <iostream>
 
 App::App()
 {
@@ -42,20 +43,27 @@ App::~App()
 
 void App::run()
 {
-    IndexedTriangleMesh triangle1(Triangle(glm::vec3(-1, -0.5, 0.0), glm::vec3(0, -0.5, 0.0), glm::vec3(-0.5, 0.5, 0.0)), RGBColor(125, 0, 0));
-    IndexedTriangleMesh triangle2(Triangle(glm::vec3(0.0, -0.5, 0.0), glm::vec3(1.0, -0.5, 0.0), glm::vec3(0.5, 0.5, 0.0)), RGBColor(0, 0, 125));
-
-    while (!glfwWindowShouldClose(_window))
+    try
     {
-        // render loop code
-        processInput();
-        update();
-        triangle1.draw();
-        triangle2.draw();
-        // swap buffers
-        glfwSwapBuffers(_window);
-        // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
-        glfwPollEvents();
+        MultiColorTriangleMesh triangle(
+            Triangle(glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.5, -0.5, 0.0), glm::vec3(0.0, 0.5, 0.0)),
+            RGBColor(255, 0, 0),
+            RGBColor(0, 255, 0), RGBColor(0, 0, 255));
+        while (!glfwWindowShouldClose(_window))
+        {
+            // render loop code
+            processInput();
+            update();
+            triangle.draw();
+            //  swap buffers
+            glfwSwapBuffers(_window);
+            // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
+            glfwPollEvents();
+        }
+    }
+    catch (const ShaderCompilationError &error)
+    {
+        std::cout << error.what() << std::endl;
     }
 }
 

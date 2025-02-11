@@ -56,24 +56,24 @@ int RGBColor::green()
     return _green;
 }
 
-double RGBColor::alpha()
+float RGBColor::alpha()
 {
     return _alpha;
 }
 
-double RGBColor::clampedRed()
+float RGBColor::clampedRed()
 {
-    return static_cast<double>(_red) / 255.0;
+    return static_cast<float>(_red) / 255.0;
 }
 
-double RGBColor::clampedGreen()
+float RGBColor::clampedGreen()
 {
-    return static_cast<double>(_green) / 255.0;
+    return static_cast<float>(_green) / 255.0;
 }
 
-double RGBColor::clampedBlue()
+float RGBColor::clampedBlue()
 {
-    return static_cast<double>(_blue) / 255.0;
+    return static_cast<float>(_blue) / 255.0;
 }
 
 InvalidColorError::InvalidColorError(const std::string &message) : std::runtime_error(message)

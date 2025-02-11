@@ -4,10 +4,10 @@
 class Triangle
 {
 private:
+protected:
     glm::vec3 _a;
     glm::vec3 _b;
     glm::vec3 _c;
-
 public:
     Triangle();
     Triangle(const glm::vec3 a, const glm::vec3 &b, const glm::vec3 &c);
@@ -16,8 +16,8 @@ public:
 
     ~Triangle();
 
-    float* data();
-    const float* data() const;
+    float *data();
+    const float *data() const;
 
     glm::vec3 &a();
     glm::vec3 &b();

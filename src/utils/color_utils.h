@@ -11,7 +11,7 @@ private:
     int _red;
     int _green;
     int _blue;
-    double _alpha;
+    float _alpha;
 
     bool isValid(int x);
 
@@ -28,11 +28,11 @@ public:
     int blue();
     int green();
 
-    double alpha();
+    float alpha();
 
-    double clampedRed();
-    double clampedBlue();
-    double clampedGreen();
+    float clampedRed();
+    float clampedBlue();
+    float clampedGreen();
 };
 
 class InvalidColorError : public std::runtime_error

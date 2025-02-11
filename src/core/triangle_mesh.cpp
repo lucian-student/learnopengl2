@@ -131,3 +131,78 @@ void IndexedTriangleMesh::draw()
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
 }
+
+std::vector<float> MultiColorTriangleMesh::buildBuffer()
+{
+    std::vector<float> buffer = {
+        _triangle.a()[0],
+        _triangle.a()[1],
+        _triangle.a()[2],
+        _a.clampedRed(),
+        _a.clampedGreen(),
+        _a.clampedBlue(),
+        _a.alpha(),
+        _triangle.b()[0],
+        _triangle.b()[1],
+        _triangle.b()[2],
+        _b.clampedRed(),
+        _b.clampedGreen(),
+        _b.clampedBlue(),
+        _b.alpha(),
+        _triangle.c()[0],
+        _triangle.c()[1],
+        _triangle.c()[2],
+        _c.clampedRed(),
+        _c.clampedGreen(),
+        _c.clampedBlue(),
+        _c.alpha(),
+    };
+    return buffer;
+}
+
+MultiColorTriangleMesh::MultiColorTriangleMesh(const Triangle &triangle, const RGBColor &a, const RGBColor &b, const RGBColor &c) : _triangle(triangle), _a(a), _b(b), _c(c)
+{
+    glGenVertexArrays(1, &_vertexArray);
+    glBindVertexArray(_vertexArray);
+
+    glGenBuffers(1, &_vertexBuffer);
+    std::vector<float> buffer = buildBuffer();
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(float), buffer.data(), GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(0));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
+
+    _vertexShader = shader_utils::initalizeShader(MultiColorTriangleMesh::VERTEX_SHADER, GL_VERTEX_SHADER);
+    _fragmentShader = shader_utils::initalizeShader(MultiColorTriangleMesh::FRAGMENT_SHADER, GL_FRAGMENT_SHADER);
+
+    _program = glCreateProgram();
+    if (_program == 0)
+        throw ProgramCreationError("Nepodařilo se vytovřit program!");
+    glAttachShader(_program, _vertexShader);
+    glAttachShader(_program, _fragmentShader);
+    glLinkProgram(_program);
+    if (!program_utils::programLinked(_program))
+    {
+        throw ProgramLinkError(program_utils::getProgramLog(_program));
+    }
+}
+
+void MultiColorTriangleMesh::draw()
+{
+    glUseProgram(_program);
+    glBindVertexArray(_vertexArray);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
+}
+
+MultiColorTriangleMesh::~MultiColorTriangleMesh()
+{
+    glDeleteShader(_vertexShader);
+    glDeleteShader(_fragmentShader);
+    glDeleteBuffers(1, &_vertexBuffer);
+    glDeleteVertexArrays(1, &_vertexArray);
+    glDeleteProgram(_program);
+}
