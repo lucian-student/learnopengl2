@@ -1,4 +1,5 @@
 #include "shader_utils.h"
+#include <glfw_exception.h>
 
 bool shader_utils::shaderCompiled(GLuint shader)
 {
@@ -16,4 +17,19 @@ std::string shader_utils::getShaderLog(GLuint shader)
     std::string messageStr(message);
     delete[] message;
     return messageStr;
+}
+
+GLuint shader_utils::initalizeShader(const GLchar *code, GLenum shaderType)
+{
+    GLuint shader = glCreateShader(shaderType);
+    if (shader == 0)
+        throw ShaderCreationError("Nepodařílo se vytvořit shader!");
+    glShaderSource(shader, 1, &code, NULL);
+    glCompileShader(shader);
+    if (!shaderCompiled(shader))
+    {
+        std::string errorMessage = "Shader error: " + getShaderLog(shader);
+        throw ShaderCompilationError(errorMessage);
+    }
+    return shader;
 }

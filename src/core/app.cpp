@@ -42,14 +42,16 @@ App::~App()
 
 void App::run()
 {
-    TriangleMesh triangle(Triangle(glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.5, -0.5, 0.0), glm::vec3(0.0, 0.5, 0.0)));
+    IndexedTriangleMesh triangle1(Triangle(glm::vec3(-1, -0.5, 0.0), glm::vec3(0, -0.5, 0.0), glm::vec3(-0.5, 0.5, 0.0)), RGBColor(125, 0, 0));
+    IndexedTriangleMesh triangle2(Triangle(glm::vec3(0.0, -0.5, 0.0), glm::vec3(1.0, -0.5, 0.0), glm::vec3(0.5, 0.5, 0.0)), RGBColor(0, 0, 125));
 
     while (!glfwWindowShouldClose(_window))
     {
         // render loop code
         processInput();
         update();
-        triangle.draw();
+        triangle1.draw();
+        triangle2.draw();
         // swap buffers
         glfwSwapBuffers(_window);
         // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
