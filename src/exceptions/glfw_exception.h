@@ -49,3 +49,10 @@ private:
 public:
     ProgramLinkError(const std::string &message);
 };
+
+class BufferGenError : public std::runtime_error
+{
+private:
+public:
+    BufferGenError(const std::string &message);
+};

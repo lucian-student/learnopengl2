@@ -166,21 +166,18 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(
     const Triangle &triangle,
     const RGBColor &a,
     const RGBColor &b,
-    const RGBColor &c) : _vertexShader(GL_VERTEX_SHADER, "multi_color_triangle.frag"),
-                         _fragmentShader(GL_FRAGMENT_SHADER, "multi_color_triangle.vert"),
+    const RGBColor &c) : _vertexShader(GL_VERTEX_SHADER, "multi_color_triangle\\multi_color_triangle.frag"),
+                         _fragmentShader(GL_FRAGMENT_SHADER, "multi_color_triangle\\multi_color_triangle.vert"),
                          _triangle(triangle),
                          _a(a),
                          _b(b),
-                         _c(c)
+                         _c(c),
+                         _vertexArray(),
+                         _bufferObject(buildBuffer(),GL_STATIC_DRAW)
 {
-    glGenVertexArrays(1, &_vertexArray);
-    glBindVertexArray(_vertexArray);
-
-    glGenBuffers(1, &_vertexBuffer);
-    std::vector<float> buffer = buildBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(float), buffer.data(), GL_STATIC_DRAW);
-
+    _vertexArray.bind();
+    
+    _bufferObject.bind();
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(0));
     glEnableVertexAttribArray(1);
@@ -198,19 +195,18 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(
     {
         throw ProgramLinkError(program_utils::getProgramLog(_program));
     }
+    _vertexArray.unbind();
 }
 
 void MultiColorTriangleMesh::draw()
 {
     glUseProgram(_program);
-    glBindVertexArray(_vertexArray);
+    _vertexArray.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindVertexArray(0);
+    _vertexArray.unbind();
 }
 
 MultiColorTriangleMesh::~MultiColorTriangleMesh()
 {
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArrays(1, &_vertexArray);
     glDeleteProgram(_program);
 }

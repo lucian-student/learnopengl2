@@ -20,6 +20,10 @@ ProgramCreationError::ProgramCreationError(const std::string &message) : std::ru
 {
 }
 
-ProgramLinkError::ProgramLinkError(const std::string& message):std::runtime_error(message){
-    
+ProgramLinkError::ProgramLinkError(const std::string &message) : std::runtime_error(message)
+{
+}
+
+BufferGenError::BufferGenError(const std::string &message) : std::runtime_error(message)
+{
 }

@@ -23,8 +23,6 @@ Shader::Shader(GLenum type, const std::string &filename)
     shaderPath /= "shaders";
     shaderPath /= filename;
 
-    std::cout << shaderPath << std::endl;
-
     _id = glCreateShader(type);
     if (_id == 0)
     {

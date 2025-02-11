@@ -4,6 +4,8 @@
 #include <color_utils.h>
 #include <vector>
 #include <shader.h>
+#include <vertex_array_object.h>
+#include <vertex_buffer_object.h>
 
 class TriangleMesh
 {
@@ -100,10 +102,9 @@ private:
     RGBColor _b;
     RGBColor _c;
 
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
+    VertexArrayObject _vertexArray;
+    VertexBufferObject _bufferObject;
     GLuint _program;
-
     std::vector<float> buildBuffer();
 
 public:
