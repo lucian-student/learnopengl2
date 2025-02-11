@@ -1,5 +1,6 @@
 #include "app.h"
 #include <glfw_exception.h>
+#include <file_exception.h>
 #include <color_utils.h>
 #include <triangle_mesh.h>
 #include <glm/vec3.hpp>
@@ -62,6 +63,14 @@ void App::run()
         }
     }
     catch (const ShaderCompilationError &error)
+    {
+        std::cout << error.what() << std::endl;
+    }
+    catch (const FileReadError &error)
+    {
+        std::cout << error.what() << std::endl;
+    }
+    catch (const FailedToOpenFileError &error)
     {
         std::cout << error.what() << std::endl;
     }

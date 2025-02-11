@@ -7,6 +7,7 @@ class Shader
 private:
     GLuint _id;
 public:
+    Shader() noexcept;
     Shader(GLenum type, const std::string &filename);
     ~Shader();
     void attach(GLuint program);

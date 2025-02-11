@@ -1,4 +1,6 @@
 #include "triangle_mesh.h"
+#include <iostream>
+#include <filesystem>
 #include <glfw_exception.h>
 #include <shader_utils.h>
 #include <program_utils.h>
@@ -160,7 +162,16 @@ std::vector<float> MultiColorTriangleMesh::buildBuffer()
     return buffer;
 }
 
-MultiColorTriangleMesh::MultiColorTriangleMesh(const Triangle &triangle, const RGBColor &a, const RGBColor &b, const RGBColor &c) : _triangle(triangle), _a(a), _b(b), _c(c)
+MultiColorTriangleMesh::MultiColorTriangleMesh(
+    const Triangle &triangle,
+    const RGBColor &a,
+    const RGBColor &b,
+    const RGBColor &c) : _vertexShader(GL_VERTEX_SHADER, "multi_color_triangle.frag"),
+                         _fragmentShader(GL_FRAGMENT_SHADER, "multi_color_triangle.vert"),
+                         _triangle(triangle),
+                         _a(a),
+                         _b(b),
+                         _c(c)
 {
     glGenVertexArrays(1, &_vertexArray);
     glBindVertexArray(_vertexArray);
@@ -175,14 +186,13 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(const Triangle &triangle, const R
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
 
-    _vertexShader = shader_utils::initalizeShader(MultiColorTriangleMesh::VERTEX_SHADER, GL_VERTEX_SHADER);
-    _fragmentShader = shader_utils::initalizeShader(MultiColorTriangleMesh::FRAGMENT_SHADER, GL_FRAGMENT_SHADER);
-
     _program = glCreateProgram();
     if (_program == 0)
+    {
         throw ProgramCreationError("Nepodařilo se vytovřit program!");
-    glAttachShader(_program, _vertexShader);
-    glAttachShader(_program, _fragmentShader);
+    }
+    _vertexShader.attach(_program);
+    _fragmentShader.attach(_program);
     glLinkProgram(_program);
     if (!program_utils::programLinked(_program))
     {
@@ -200,8 +210,6 @@ void MultiColorTriangleMesh::draw()
 
 MultiColorTriangleMesh::~MultiColorTriangleMesh()
 {
-    glDeleteShader(_vertexShader);
-    glDeleteShader(_fragmentShader);
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArrays(1, &_vertexArray);
     glDeleteProgram(_program);
