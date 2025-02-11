@@ -166,41 +166,31 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(
     const Triangle &triangle,
     const RGBColor &a,
     const RGBColor &b,
-    const RGBColor &c) : _vertexShader(GL_VERTEX_SHADER, "multi_color_triangle\\multi_color_triangle.frag"),
-                         _fragmentShader(GL_FRAGMENT_SHADER, "multi_color_triangle\\multi_color_triangle.vert"),
-                         _triangle(triangle),
+    const RGBColor &c) : _triangle(triangle),
                          _a(a),
                          _b(b),
                          _c(c),
                          _vertexArray(),
-                         _bufferObject(buildBuffer(),GL_STATIC_DRAW)
+                         _bufferObject(buildBuffer(), GL_STATIC_DRAW),
+                         _program()
 {
     _vertexArray.bind();
-    
+
     _bufferObject.bind();
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(0));
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
 
-    _program = glCreateProgram();
-    if (_program == 0)
-    {
-        throw ProgramCreationError("Nepodařilo se vytovřit program!");
-    }
-    _vertexShader.attach(_program);
-    _fragmentShader.attach(_program);
-    glLinkProgram(_program);
-    if (!program_utils::programLinked(_program))
-    {
-        throw ProgramLinkError(program_utils::getProgramLog(_program));
-    }
+    _program.emplace_shader(GL_VERTEX_SHADER, "multi_color_triangle\\multi_color_triangle.frag");
+    _program.emplace_shader(GL_FRAGMENT_SHADER, "multi_color_triangle\\multi_color_triangle.vert");
+    _program.link();
     _vertexArray.unbind();
 }
 
 void MultiColorTriangleMesh::draw()
 {
-    glUseProgram(_program);
+    _program.use();
     _vertexArray.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
     _vertexArray.unbind();
@@ -208,5 +198,4 @@ void MultiColorTriangleMesh::draw()
 
 MultiColorTriangleMesh::~MultiColorTriangleMesh()
 {
-    glDeleteProgram(_program);
 }

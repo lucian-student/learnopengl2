@@ -77,3 +77,13 @@ std::string Shader::log()
 {
     return shader_utils::getShaderLog(_id);
 }
+
+GLuint Shader::id() const noexcept
+{
+    return _id;
+}
+
+bool Shader::operator==(const Shader& shader) const noexcept
+{
+    return shader.id() == id();
+}

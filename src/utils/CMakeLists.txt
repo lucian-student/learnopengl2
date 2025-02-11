@@ -8,6 +8,7 @@ add_library(
     utils.cpp
     vertex_array_object.cpp
     vertex_buffer_object.cpp
+    program.cpp
 )
 
 target_include_directories(UTILS PUBLIC "${CMAKE_CURRENT_LIST_DIR}")

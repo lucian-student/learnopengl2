@@ -6,6 +6,7 @@
 #include <shader.h>
 #include <vertex_array_object.h>
 #include <vertex_buffer_object.h>
+#include <program.h>
 
 class TriangleMesh
 {
@@ -91,9 +92,6 @@ public:
 class MultiColorTriangleMesh
 {
 private:
-    Shader _vertexShader;
-    Shader _fragmentShader;
-
     // color + triangle
     constexpr static int SIZE_OF_BUFFER = sizeof(Triangle) + (12 * sizeof(float));
 
@@ -104,7 +102,8 @@ private:
 
     VertexArrayObject _vertexArray;
     VertexBufferObject _bufferObject;
-    GLuint _program;
+    Program _program;
+
     std::vector<float> buildBuffer();
 
 public:
