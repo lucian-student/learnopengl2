@@ -15,7 +15,7 @@ Shader::Shader() noexcept : _id(0)
 {
 }
 
-Shader::Shader(GLenum type, const std::string &filename)
+Shader::Shader(GLenum type, const std::string &filename) 
 {
     std::filesystem::path executablePath(utils::executablePath());
     std::filesystem::path shaderPath = executablePath.parent_path().parent_path().parent_path().parent_path();
@@ -35,25 +35,23 @@ Shader::Shader(GLenum type, const std::string &filename)
         glDeleteShader(_id);
         throw FailedToOpenFileError("Nepodařilo se otevřit soubor: " + shaderPath.string() + "!");
     }
+    shaderFile.exceptions(std::ios::badbit | std::ios::failbit);
 
-    std::stringstream fileContents;
-    std::string line;
-    while (std::getline(shaderFile, line))
+    try
     {
-        if (fileContents.eof())
-            break;
-        fileContents << line << "\n";
+        std::stringstream fileContents;
+        std::string line;
+        fileContents << shaderFile.rdbuf();
+        shaderFile.close();
+
+        std::string strShaderCode = fileContents.str();
+        const char *shaderCode = strShaderCode.c_str();
+        glShaderSource(_id, 1, &shaderCode, NULL);
     }
-
-    if ((!shaderFile.eof() && !shaderFile) || shaderFile.bad())
+    catch (const std::ifstream::failure &err)
     {
-        glDeleteShader(_id);
         throw FileReadError("Error while reading file!");
     }
-
-    std::string strShaderCode = fileContents.str();
-    const char *shaderCode = strShaderCode.c_str();
-    glShaderSource(_id, 1, &shaderCode, NULL);
 
     glCompileShader(_id);
     if (!shader_utils::shaderCompiled(_id))
@@ -70,6 +68,9 @@ Shader::~Shader()
 
 void Shader::attach(GLuint program)
 {
+    /*
+    Možná by to chtělo podporu pro víc programů pro shader
+    */
     glAttachShader(program, _id);
 }
 
@@ -83,7 +84,7 @@ GLuint Shader::id() const noexcept
     return _id;
 }
 
-bool Shader::operator==(const Shader& shader) const noexcept
+bool Shader::operator==(const Shader &shader) const noexcept
 {
     return shader.id() == id();
 }

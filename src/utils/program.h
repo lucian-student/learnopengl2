@@ -22,6 +22,7 @@ public:
     }
     void link();
     std::string log();
+    void setUniform(float value,const std::string& name);
 
     GLuint id();
     void use();

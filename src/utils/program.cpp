@@ -38,3 +38,11 @@ void Program::use()
 {
     glUseProgram(_id);
 }
+
+void Program::setUniform(float value, const std::string &name)
+{
+    GLint location = glGetUniformLocation(id(), name.c_str());
+    if (location == -1)
+        throw LocationError("Couldn't find location of uniform!");
+    glUniform1f(location, value);
+}

@@ -27,3 +27,7 @@ ProgramLinkError::ProgramLinkError(const std::string &message) : std::runtime_er
 BufferGenError::BufferGenError(const std::string &message) : std::runtime_error(message)
 {
 }
+
+LocationError::LocationError(const std::string &message) : std::runtime_error(message)
+{
+}

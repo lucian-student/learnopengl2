@@ -56,3 +56,9 @@ private:
 public:
     BufferGenError(const std::string &message);
 };
+
+class LocationError: public std::runtime_error{
+    private:
+    public:
+        LocationError(const std::string& message);
+};
