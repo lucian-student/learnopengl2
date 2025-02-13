@@ -3,6 +3,7 @@ add_library(CORE
     app.cpp
     triangle_mesh.cpp
     triangle.cpp
+    square_mesh.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)

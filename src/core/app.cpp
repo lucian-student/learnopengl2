@@ -2,9 +2,10 @@
 #include <glfw_exception.h>
 #include <file_exception.h>
 #include <color_utils.h>
-#include <triangle_mesh.h>
+#include <square_mesh.h>
 #include <glm/vec3.hpp>
 #include <iostream>
+#include <stdexcept>
 
 App::App()
 {
@@ -46,31 +47,20 @@ void App::run()
 {
     try
     {
-        MultiColorTriangleMesh triangle(
-            Triangle(glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.5, -0.5, 0.0), glm::vec3(0.0, 0.5, 0.0)),
-            RGBColor(255, 0, 0),
-            RGBColor(0, 255, 0), RGBColor(0, 0, 255));
+        SquareMesh square(1.0);
         while (!glfwWindowShouldClose(_window))
         {
             // render loop code
             processInput();
             update();
-            triangle.draw();
+            square.draw();
             //  swap buffers
             glfwSwapBuffers(_window);
             // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
             glfwPollEvents();
         }
     }
-    catch (const ShaderCompilationError &error)
-    {
-        std::cout << error.what() << std::endl;
-    }
-    catch (const FileReadError &error)
-    {
-        std::cout << error.what() << std::endl;
-    }
-    catch (const FailedToOpenFileError &error)
+    catch (const std::runtime_error &error)
     {
         std::cout << error.what() << std::endl;
     }

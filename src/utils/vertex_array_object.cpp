@@ -3,6 +3,7 @@
 VertexArrayObject::VertexArrayObject()
 {
     glGenVertexArrays(1, &_id);
+    bind();
 }
 
 VertexArrayObject::~VertexArrayObject()

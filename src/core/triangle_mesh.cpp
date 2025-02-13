@@ -179,10 +179,10 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(
     _bufferObject.bind();
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(0));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
+    //glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
 
-    _program.emplace_shader(GL_VERTEX_SHADER, "multi_color_triangle\\multi_color_upsidedown_triangle.vert");
+    _program.emplace_shader(GL_VERTEX_SHADER, "multi_color_triangle\\position_color.vert");
     _program.emplace_shader(GL_FRAGMENT_SHADER, "multi_color_triangle\\multi_color_triangle.frag");
     _program.link();
     _vertexArray.unbind();
@@ -191,7 +191,7 @@ MultiColorTriangleMesh::MultiColorTriangleMesh(
 void MultiColorTriangleMesh::draw()
 {
     _program.use();
-    _program.setUniform(0.5, "offset");
+    //_program.setUniform(0.5, "offset");
     _vertexArray.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
     _vertexArray.unbind();

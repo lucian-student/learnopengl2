@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(OPENGL)
 
-add_subdirectory(Glad)
+add_subdirectory(stb)
+add_subdirectory(glad)
 add_subdirectory(src)
 add_subdirectory(test)

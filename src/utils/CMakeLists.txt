@@ -9,8 +9,9 @@ add_library(
     vertex_array_object.cpp
     vertex_buffer_object.cpp
     program.cpp
+    texture.cpp
 )
 
 target_include_directories(UTILS PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
 
-target_link_libraries(UTILS PUBLIC glad EXCEPTION)
+target_link_libraries(UTILS PUBLIC glad EXCEPTION stb)
