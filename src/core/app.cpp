@@ -6,8 +6,10 @@
 #include <glm/vec3.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <chrono>
+#include <thread>
 
-App::App()
+App::App() : _fps(App::DEFAULT_FPS)
 {
     int width = App::DEFAULT_WIDTH;
     int height = App::DEFAULT_HEIGHT;
@@ -47,6 +49,9 @@ void App::run()
 {
     try
     {
+        size_t counter = 0;
+        double frameWindow = 1.0 / static_cast<double>(_fps);
+        double lastUpdated = glfwGetTime();
         SquareMesh square(1.0);
         while (!glfwWindowShouldClose(_window))
         {
@@ -58,6 +63,14 @@ void App::run()
             glfwSwapBuffers(_window);
             // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
             glfwPollEvents();
+            double currentTime = glfwGetTime();
+            double delta = currentTime - lastUpdated;
+            if (delta < frameWindow)
+            {
+                long long miliseconds = static_cast<long long>((frameWindow - delta) * 1000.0);
+                std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+            }
+            lastUpdated = glfwGetTime();
         }
     }
     catch (const std::runtime_error &error)

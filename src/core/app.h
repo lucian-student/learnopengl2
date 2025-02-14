@@ -10,8 +10,11 @@ class App
 private:
     const static int DEFAULT_HEIGHT = 800;
     const static int DEFAULT_WIDTH = 800;
+    const static int DEFAULT_FPS = 60;
 
+    int _fps;
     GLFWwindow* _window;
+    
 
 
     void processInput();
