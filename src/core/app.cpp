@@ -3,11 +3,14 @@
 #include <file_exception.h>
 #include <color_utils.h>
 #include <square_mesh.h>
-#include <glm/vec3.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <chrono>
 #include <thread>
+#include <glm/glm.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 App::App() : _fps(App::DEFAULT_FPS)
 {
@@ -52,12 +55,16 @@ void App::run()
         size_t counter = 0;
         double frameWindow = 1.0 / static_cast<double>(_fps);
         double lastUpdated = glfwGetTime();
-        SquareMesh square(1.0);
+        SquareMesh square(0.5);
+
+        float rotation = 360.0f / (static_cast<float>(_fps) * 2.0f);
+        square.transformAppend(glm::translate(glm::mat4(1.0), glm::vec3(0.5, 0.5, 0)));
         while (!glfwWindowShouldClose(_window))
         {
             // render loop code
             processInput();
             update();
+            square.transformPrepend(glm::rotate(glm::mat4(1.0), glm::radians(rotation), glm::vec3(0, 0, 1)));
             square.draw();
             //  swap buffers
             glfwSwapBuffers(_window);

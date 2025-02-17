@@ -1,7 +1,7 @@
 #include "square_mesh.h"
 #include <vector>
-#include <glm/vec2.hpp>
 #include <algorithm>
+#include <glm/gtc/matrix_transform.hpp>
 
 std::vector<float> SquareMesh::getData()
 {
@@ -32,7 +32,7 @@ std::vector<float> SquareMesh::getData()
 
 std::vector<unsigned int> SquareMesh::indices()
 {
-    return {0,1,3,3,2,1};
+    return {0, 1, 3, 3, 2, 1};
 }
 
 SquareMesh::SquareMesh(float width) : _width(width),
@@ -41,14 +41,15 @@ SquareMesh::SquareMesh(float width) : _width(width),
                                       _elementBufferObject(indices(), GL_STATIC_DRAW, GL_ELEMENT_ARRAY_BUFFER),
                                       _program(),
                                       _texture("container.jpg", GL_RGB, GL_RGB),
-                                      _texture2("awesomeface.png", GL_RGB, GL_RGBA)
+                                      _texture2("awesomeface.png", GL_RGB, GL_RGBA),
+                                      _transform(glm::mat4(1.0))
 {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
 
-    _program.emplace_shader(GL_VERTEX_SHADER, "square\\square_texture.vert");
+    _program.emplace_shader(GL_VERTEX_SHADER, "square\\rotated_scaled.vert");
     _program.emplace_shader(GL_FRAGMENT_SHADER, "square\\one_reverse.frag");
     _program.link();
     _program.use();
@@ -65,9 +66,30 @@ void SquareMesh::draw()
     _program.use();
     _texture.bind(GL_TEXTURE0);
     _texture2.bind(GL_TEXTURE1);
-    _program.setUniform(0,"fragmentTexture1");
-    _program.setUniform(1,"fragmentTexture2");
-    _program.setUniform(0.5f,"mixture");
+    _program.setUniform(0, "fragmentTexture1");
+    _program.setUniform(1, "fragmentTexture2");
+    _program.setUniform(0.5f, "mixture");
+    _program.setUniform(_transform, "transform");
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     _vertexArray.unbind();
+}
+
+void SquareMesh::transformAppend(const glm::mat4 &matrix)
+{
+    _transform = matrix * _transform;
+}
+
+void SquareMesh::transformPrepend(const glm::mat4 &matrix)
+{
+    _transform = _transform * matrix;
+}
+
+void SquareMesh::rotateZ(float radians)
+{
+    _transform = glm::rotate(_transform, radians, glm::vec3(0, 0, 1));
+}
+
+const glm::mat4 &SquareMesh::currentTransform() const
+{
+    return _transform;
 }
