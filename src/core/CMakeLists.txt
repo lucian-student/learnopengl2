@@ -4,6 +4,10 @@ add_library(CORE
     triangle_mesh.cpp
     triangle.cpp
     square_mesh.cpp
+    object3D.cpp
+    camera.cpp
+    renderer.cpp
+    scene.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)
