@@ -1,5 +1,6 @@
 #include "scene.h"
 #include <algorithm>
+#include <iostream>
 
 Scene::Scene()
 {

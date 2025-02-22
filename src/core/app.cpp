@@ -11,6 +11,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "renderer.h"
+#include "scene.h"
+#include "camera.h"
+#include "box_mesh.h"
 
 App::App() : _fps(App::DEFAULT_FPS)
 {
@@ -50,22 +54,31 @@ App::~App()
 
 void App::run()
 {
+
     try
     {
         size_t counter = 0;
         double frameWindow = 1.0 / static_cast<double>(_fps);
         double lastUpdated = glfwGetTime();
-        SquareMesh square(0.5);
 
-        float rotation = 360.0f / (static_cast<float>(_fps) * 2.0f);
-        square.transformAppend(glm::translate(glm::mat4(1.0), glm::vec3(0.5, 0.5, 0)));
+        // potřebuje opravit
+        float fov = glm::radians(45.0f);
+        float aspect = static_cast<float>(App::DEFAULT_HEIGHT) / static_cast<float>(App::DEFAULT_HEIGHT);
+        float near = 0.1;
+        float far = 100;
+        Renderer renderer(std::make_unique<Camera>(fov, aspect, near, far), std::make_unique<Scene>());
+        std::shared_ptr<BoxMesh> box = std::make_shared<BoxMesh>(0.5);
+        box->translate(glm::vec3(0, 0.5, 0));
+        //box->rotate(glm::radians(230.401f), glm::vec3(0, 1.0, 0));
+        renderer.scene()->push_back(box);
+        float rotation = 360.0f / (static_cast<float>(_fps) * 10.0f);
         while (!glfwWindowShouldClose(_window))
         {
             // render loop code
             processInput();
             update();
-            square.transformPrepend(glm::rotate(glm::mat4(1.0), glm::radians(rotation), glm::vec3(0, 0, 1)));
-            square.draw();
+            renderer.render();
+            box->rotate(glm::radians(rotation), glm::vec3(1.0, 1.0, 1.0));
             //  swap buffers
             glfwSwapBuffers(_window);
             // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets

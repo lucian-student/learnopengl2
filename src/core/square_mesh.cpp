@@ -79,6 +79,9 @@ void SquareMesh::transformAppend(const glm::mat4 &matrix)
     _transform = matrix * _transform;
 }
 
+/*/
+Rotace by měla být před translací
+*/
 void SquareMesh::transformPrepend(const glm::mat4 &matrix)
 {
     _transform = _transform * matrix;

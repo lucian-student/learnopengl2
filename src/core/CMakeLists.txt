@@ -8,6 +8,7 @@ add_library(CORE
     camera.cpp
     renderer.cpp
     scene.cpp
+    box_mesh.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)
