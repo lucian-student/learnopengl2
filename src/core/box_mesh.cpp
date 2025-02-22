@@ -123,9 +123,8 @@ std::vector<unsigned int> BoxMesh::indices()
 
     for (size_t i = 0; i < 6; i++)
     {
-        std::for_each(side.begin(), side.end(), [&](unsigned int x) {
-            res.push_back(x + (i * 4));
-        });
+        std::for_each(side.begin(), side.end(), [&](unsigned int x)
+                      { res.push_back(x + (i * 4)); });
     }
     return res;
 }
@@ -144,7 +143,7 @@ BoxMesh::BoxMesh(float side) : Object3D(),
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     // potom se musí nastavit shadery
-    _program.emplace_shader(GL_VERTEX_SHADER, "square\\rotated_scaled.vert");
+    _program.emplace_shader(GL_VERTEX_SHADER, "square\\perspective.vert");
     _program.emplace_shader(GL_FRAGMENT_SHADER, "square\\one_reverse.frag");
     _program.link();
     _vertexArray.unbind();
@@ -156,14 +155,16 @@ BoxMesh::~BoxMesh()
 {
 }
 
-void BoxMesh::draw()
+void BoxMesh::draw(const glm::mat4 &projection, const glm::mat4 &view)
 {
     _vertexArray.bind();
     _program.use();
     _program.setUniform(0, "fragmentTexture1");
     _program.setUniform(1, "fragmentTexture2");
     _program.setUniform(0.5f, "mixture");
-    _program.setUniform(modelMatrix(), "transform");
+    _program.setUniform(modelMatrix(), "model");
+    _program.setUniform(projection, "projection");
+    _program.setUniform(view, "view");
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     _vertexArray.unbind();
 }

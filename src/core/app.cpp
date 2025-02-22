@@ -67,9 +67,10 @@ void App::run()
         float near = 0.1;
         float far = 100;
         Renderer renderer(std::make_unique<Camera>(fov, aspect, near, far), std::make_unique<Scene>());
+        renderer.camera()->translate(glm::vec3(0.0, 0.0, -5.0));
         std::shared_ptr<BoxMesh> box = std::make_shared<BoxMesh>(0.5);
         box->translate(glm::vec3(0, 0.5, 0));
-        //box->rotate(glm::radians(230.401f), glm::vec3(0, 1.0, 0));
+        // box->rotate(glm::radians(230.401f), glm::vec3(0, 1.0, 0));
         renderer.scene()->push_back(box);
         float rotation = 360.0f / (static_cast<float>(_fps) * 10.0f);
         while (!glfwWindowShouldClose(_window))

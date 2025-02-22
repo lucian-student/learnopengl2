@@ -14,7 +14,7 @@ void Renderer::render() const
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _scene->draw();
+    _scene->draw(_camera->projectionMatrix(), _camera->viewMatrix());
 }
 
 std::unique_ptr<Camera> &Renderer::camera()

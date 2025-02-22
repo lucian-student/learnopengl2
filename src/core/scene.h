@@ -12,5 +12,5 @@ public:
     Scene();
     ~Scene();
     void push_back(const std::shared_ptr<Object3D> &object);
-    void draw();
+    void draw(const glm::mat4 &projection, const glm::mat4 &view);
 };

@@ -21,5 +21,5 @@ private:
 public:
     BoxMesh(float side);
     ~BoxMesh();
-    void draw() override;
+    void draw(const glm::mat4 &projection, const glm::mat4 &view) override;
 };
