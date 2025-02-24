@@ -15,6 +15,7 @@ add_library(
     material/material.cpp
     material/basic_material.cpp
     material/light_material.cpp
+    material/map_material.cpp
     mesh.cpp
 )
 
