@@ -2,117 +2,140 @@
 #include <glm/glm.hpp>
 #include <algorithm>
 
-std::vector<float> BoxGeometry::getData()
+std::vector<float> BoxGeometry::getData(float side)
 {
     float textureRange = 1.0;
-    float strechedTextureRange = 2.0;
-    std::vector<std::pair<glm::vec3, glm::vec2>> data = {
+    std::vector<std::tuple<glm::vec3, glm::vec2, glm::vec3>> data = {
         // front
         {
-            glm::vec3(-_side / 2, -_side / 2, _side / 2),
+            glm::vec3(-side / 2, -side / 2, side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(0, 0, 1.0),
         },
         {
-            glm::vec3(_side / 2, -_side / 2, _side / 2),
+            glm::vec3(side / 2, -side / 2, side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(0, 0, 1.0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, _side / 2),
+            glm::vec3(side / 2, side / 2, side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(0, 0, 1.0),
         },
         {
-            glm::vec3(-_side / 2, _side / 2, _side / 2),
+            glm::vec3(-side / 2, side / 2, side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(0, 0, 1.0),
         },
         // back
         {
-            glm::vec3(_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(side / 2, -side / 2, -side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(0, 0, -1.0),
         },
         {
-            glm::vec3(-_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(-side / 2, -side / 2, -side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(0, 0, -1.0),
         },
         {
-            glm::vec3(-_side / 2, _side / 2, -_side / 2),
+            glm::vec3(-side / 2, side / 2, -side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(0, 0, -1.0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, -_side / 2),
+            glm::vec3(side / 2, side / 2, -side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(0, 0, -1.0),
         },
         // left
         {
-            glm::vec3(-_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(-side / 2, -side / 2, -side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(-1.0, 0, 0),
         },
         {
-            glm::vec3(-_side / 2, -_side / 2, _side / 2),
+            glm::vec3(-side / 2, -side / 2, side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(-1.0, 0, 0),
         },
         {
-            glm::vec3(-_side / 2, _side / 2, _side / 2),
+            glm::vec3(-side / 2, side / 2, side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(-1.0, 0, 0),
         },
         {
-            glm::vec3(-_side / 2, _side / 2, -_side / 2),
+            glm::vec3(-side / 2, side / 2, -side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(-1.0, 0, 0),
         },
         // right
         {
-            glm::vec3(_side / 2, -_side / 2, _side / 2),
+            glm::vec3(side / 2, -side / 2, side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(1.0, 0, 0),
         },
         {
-            glm::vec3(_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(side / 2, -side / 2, -side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(1.0, 0, 0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, -_side / 2),
+            glm::vec3(side / 2, side / 2, -side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(1.0, 0, 0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, _side / 2),
+            glm::vec3(side / 2, side / 2, side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(1.0, 0, 0),
         },
         // top
         {
-            glm::vec3(-_side / 2, _side / 2, _side / 2),
+            glm::vec3(-side / 2, side / 2, side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(0, 1.0, 0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, _side / 2),
+            glm::vec3(side / 2, side / 2, side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(0, 1.0, 0),
         },
         {
-            glm::vec3(_side / 2, _side / 2, -_side / 2),
+            glm::vec3(side / 2, side / 2, -side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(0, 1.0, 0),
         },
         {
-            glm::vec3(-_side / 2, _side / 2, -_side / 2),
+            glm::vec3(-side / 2, side / 2, -side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(0, 1.0, 0),
         },
         // bottom
         {
-            glm::vec3(-_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(-side / 2, -side / 2, -side / 2),
             glm::vec2(0.0, 0.0),
+            glm::vec3(0, -1.0, 0),
         },
         {
-            glm::vec3(_side / 2, -_side / 2, -_side / 2),
+            glm::vec3(side / 2, -side / 2, -side / 2),
             glm::vec2(textureRange, 0.0),
+            glm::vec3(0, -1.0, 0),
         },
         {
-            glm::vec3(_side / 2, -_side / 2, _side / 2),
+            glm::vec3(side / 2, -side / 2, side / 2),
             glm::vec2(textureRange, textureRange),
+            glm::vec3(0, -1.0, 0),
         },
         {
-            glm::vec3(-_side / 2, -_side / 2, _side / 2),
+            glm::vec3(-side / 2, -side / 2, side / 2),
             glm::vec2(0.0, textureRange),
+            glm::vec3(0, -1.0, 0),
         },
     };
     std::vector<float> simplifiedData;
-    std::for_each(data.begin(), data.end(), [&](const std::pair<glm::vec3, glm::vec2> &x)
-                  { simplifiedData.insert(simplifiedData.end(), {x.first[0], x.first[1], x.first[2], x.second[0], x.second[1]}); });
+    std::for_each(data.begin(), data.end(), [&](const std::tuple<glm::vec3, glm::vec2, glm::vec3> &x)
+                  { simplifiedData.insert(simplifiedData.end(), {std::get<0>(x)[0], std::get<0>(x)[1], std::get<0>(x)[2], std::get<1>(x)[0], std::get<1>(x)[1], std::get<2>(x)[0], std::get<2>(x)[1], std::get<2>(x)[2]}); });
     return simplifiedData;
 }
 
@@ -129,7 +152,7 @@ std::vector<unsigned int> BoxGeometry::indices()
     return res;
 }
 
-BoxGeometry::BoxGeometry(float side) : _side(side), BufferGeometry({{0, 3}, {1, 2}}, getData(), indices())
+BoxGeometry::BoxGeometry(float side) : BufferGeometry({{0, 3}, {1, 2}, {2, 3}}, getData(side), indices()), _side(side)
 {
 }
 

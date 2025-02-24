@@ -15,6 +15,10 @@
 #include "scene.h"
 #include "camera.h"
 #include "box_mesh.h"
+#include "mesh.h"
+#include "geometry/box_geometry.h"
+#include "material/basic_material.h"
+#include "material/light_material.h"
 
 App::App() : _fps(App::DEFAULT_FPS)
 {
@@ -66,12 +70,19 @@ void App::run()
         float near = 0.1;
         float far = 100;
         Renderer renderer(std::make_unique<Camera>(fov, aspect, near, far), std::make_unique<Scene>());
-        renderer.camera()->translate(glm::vec3(0.0, 0.0, 5.0));
+        renderer.camera()->translate(glm::vec3(2.0, 2.0, 3.0));
         std::cout << glm::to_string(renderer.camera()->viewMatrix()) << std::endl;
-        std::shared_ptr<BoxMesh> box = std::make_shared<BoxMesh>(0.5);
-        box->translate(glm::vec3(0, 0.5, 0));
+        // std::shared_ptr<BoxMesh> box = std::make_shared<BoxMesh>(0.5);
+        // box->translate(glm::vec3(0, 0.5, 0));
+        std::shared_ptr<Mesh> box = std::make_shared<Mesh>(std::make_unique<BoxGeometry>(2.0f), std::make_unique<LightMaterial>(RGBColor(255, 0, 0)));
+        box->translate(glm::vec3(0.5, -0.5, 0.0));
         // box->rotate(glm::radians(230.401f), glm::vec3(0, 1.0, 0));
         renderer.scene()->push_back(box);
+
+        std::shared_ptr<Mesh> light = std::make_shared<Mesh>(std::make_unique<BoxGeometry>(0.2f), std::make_unique<BasicMaterial>(RGBColor(255, 255, 255)));
+        light->translate(glm::vec3(-2.0, 2.0,-3.0));
+        renderer.scene()->push_back(light);
+
         float rotation = 360.0f / (static_cast<float>(_fps) * 10.0f);
         while (!glfwWindowShouldClose(_window))
         {
@@ -79,8 +90,8 @@ void App::run()
             processInput();
             update();
             renderer.render();
-            box->rotate(glm::radians(rotation), glm::vec3(1.0, 1.0, 1.0));
-            //  swap buffers
+            // box->rotate(glm::radians(rotation), glm::vec3(1.0, 1.0, 1.0));
+            //    swap buffers
             glfwSwapBuffers(_window);
             // aspoň v tutorialu v glfw mají nejdřív swap buffers, potom pollEvenets
             glfwPollEvents();
@@ -109,7 +120,7 @@ void App::processInput()
 void App::update()
 {
     // rgb(175, 225, 175)
-    RGBColor backgroundColor(175, 225, 175);
+    RGBColor backgroundColor(0, 0, 0);
     glClearColor(backgroundColor.clampedRed(), backgroundColor.clampedGreen(), backgroundColor.clampedBlue(), backgroundColor.alpha());
     glClear(GL_COLOR_BUFFER_BIT);
 }

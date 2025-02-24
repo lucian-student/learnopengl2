@@ -2,6 +2,7 @@
 #include <vector>
 #include <glad/glad.h>
 #include <glfw_exception.h>
+#include <iostream>
 
 template <typename T>
 class BufferObject

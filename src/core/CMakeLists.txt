@@ -14,6 +14,7 @@ add_library(
     geometry/box_geometry.cpp
     material/material.cpp
     material/basic_material.cpp
+    material/light_material.cpp
     mesh.cpp
 )
 

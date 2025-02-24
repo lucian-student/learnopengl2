@@ -15,7 +15,7 @@ Shader::Shader() noexcept : _id(0)
 {
 }
 
-Shader::Shader(GLenum type, const std::string &filename) 
+Shader::Shader(GLenum type, const std::string &filename)
 {
     std::filesystem::path executablePath(utils::executablePath());
     std::filesystem::path shaderPath = executablePath.parent_path().parent_path().parent_path().parent_path();
@@ -56,8 +56,10 @@ Shader::Shader(GLenum type, const std::string &filename)
     glCompileShader(_id);
     if (!shader_utils::shaderCompiled(_id))
     {
+        std::stringstream error;
+        error << "Nepodařilo se zkompilovat shader: " << log() << "!";
         glDeleteShader(_id);
-        throw ShaderCompilationError("Nepodařilo se zkompilovat shader: " + log() + "!");
+        throw ShaderCompilationError(error.str());
     }
 }
 

@@ -1,5 +1,6 @@
 #include "shader_utils.h"
 #include <glfw_exception.h>
+#include <iostream>
 
 bool shader_utils::shaderCompiled(GLuint shader)
 {
@@ -12,6 +13,7 @@ std::string shader_utils::getShaderLog(GLuint shader)
 {
     GLint logLenght;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLenght);
+    std::cout << "logLength:" << logLenght << std::endl;
     GLchar *message = new GLchar[logLenght];
     glGetShaderInfoLog(shader, logLenght, NULL, message);
     std::string messageStr(message);

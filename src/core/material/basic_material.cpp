@@ -16,5 +16,5 @@ void BasicMaterial::setUniforms(Program &program)
 void BasicMaterial::setShaders(Program &program)
 {
     program.emplace_shader(GL_VERTEX_SHADER, "box\\box.vert");
-    program.emplace_shader(GL_FRAGMENT_SHADER, "box\\frag.vert");
+    program.emplace_shader(GL_FRAGMENT_SHADER, "box\\box.frag");
 }

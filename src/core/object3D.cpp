@@ -1,5 +1,8 @@
 #include "object3D.h"
 #include <glm/gtx/quaternion.hpp>
+#include <iostream>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 Object3D::Object3D() : _position(glm::vec3(0, 0, 0)), _quaterinion(glm::angleAxis(0.0f, glm::vec3(0,0,0))), _modelMatrix(glm::mat4(1.0))
 {
