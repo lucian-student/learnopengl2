@@ -1,5 +1,6 @@
 #pragma once
 #include <program.h>
+#include <glm/glm.hpp>
 
 class Material
 {
