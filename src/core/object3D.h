@@ -15,7 +15,7 @@ protected:
     glm::quat _quaterinion;
     glm::mat4 _modelMatrix;
 
-    void updateModelMatrix();
+    virtual void updateModelMatrix();
 
 public:
     Object3D();

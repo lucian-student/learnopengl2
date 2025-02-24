@@ -60,14 +60,14 @@ void App::run()
         size_t counter = 0;
         double frameWindow = 1.0 / static_cast<double>(_fps);
         double lastUpdated = glfwGetTime();
-
         // potřebuje opravit
         float fov = glm::radians(45.0f);
         float aspect = static_cast<float>(App::DEFAULT_HEIGHT) / static_cast<float>(App::DEFAULT_HEIGHT);
         float near = 0.1;
         float far = 100;
         Renderer renderer(std::make_unique<Camera>(fov, aspect, near, far), std::make_unique<Scene>());
-        renderer.camera()->translate(glm::vec3(0.0, 0.0, -5.0));
+        renderer.camera()->translate(glm::vec3(0.0, 0.0, 5.0));
+        std::cout << glm::to_string(renderer.camera()->viewMatrix()) << std::endl;
         std::shared_ptr<BoxMesh> box = std::make_shared<BoxMesh>(0.5);
         box->translate(glm::vec3(0, 0.5, 0));
         // box->rotate(glm::radians(230.401f), glm::vec3(0, 1.0, 0));

@@ -1,5 +1,6 @@
 
-add_library(CORE 
+add_library(
+    CORE 
     app.cpp
     triangle_mesh.cpp
     triangle.cpp
@@ -9,6 +10,11 @@ add_library(CORE
     renderer.cpp
     scene.cpp
     box_mesh.cpp
+    geometry/buffer_geometry.cpp
+    geometry/box_geometry.cpp
+    material/material.cpp
+    material/basic_material.cpp
+    mesh.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)
@@ -19,3 +25,5 @@ target_link_libraries(CORE PUBLIC glfw glad EXCEPTION UTILS )
 target_link_libraries(CORE PRIVATE glm::glm)
 
 target_include_directories(CORE PUBLIC  "${CMAKE_CURRENT_LIST_DIR}")
+target_include_directories(CORE PUBLIC "${CMAKE_CURRENT_LIST_DIR}/geometry")
+target_include_directories(CORE PUBLIC "${CMAKE_CURRENT_LIST_DIR}/material")
