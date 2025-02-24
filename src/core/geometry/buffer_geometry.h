@@ -17,6 +17,8 @@ protected:
     BufferObject<float> _vertexBufferObject;
     BufferObject<unsigned int> _elementBufferObject;
 
+    size_t _vertices;
+
 public:
     BufferGeometry(
         const std::vector<VertexAttribute> &attributes,
@@ -25,4 +27,7 @@ public:
     virtual ~BufferGeometry();
 
     void bind();
+    void unbind();
+
+    size_t verticesCount() const;
 };

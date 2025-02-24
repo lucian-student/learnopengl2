@@ -25,6 +25,7 @@ public:
     std::string log();
 
     void setUniform(const glm::mat4& value,const std::string &name);
+    void setUniform(const glm::vec4& value,const std::string&name);
     void setUniform(float value,const std::string& name);
     void setUniform(int value,const std::string& name);
 
